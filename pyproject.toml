@@ -29,17 +29,15 @@ classifiers = [
 ]
 dependencies = [
   "django",
-  "djangorestframework",
 ]
 
 [project.optional-dependencies]
 test = [
-  "black",
-  "django-stubs",
-  "djangorestframework-stubs",
-  "isort",
-  "mypy",
-  "pyflakes",
+  "black==22.1.0",
+  "django-stubs==1.9.0",
+  "isort==5.10.1",
+  "mypy==0.941",
+  "pyflakes==2.4.0",
 ]
 
 [project.urls]
