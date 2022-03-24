@@ -43,3 +43,13 @@ test = [
 [project.urls]
 repository = "github.com/ResonantGeoData/django-image-annotations"
 changelog = "github.com/ResonantGeoData/django-image-annotations/releases"
+
+[tool.isort]
+profile = "black"
+known_first_party = ["image_annotations", "imageannotationsd"]
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "imageannotationsd.settings"
