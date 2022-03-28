@@ -1,6 +1,6 @@
 [project]
 name = "django-image-annotations"
-version = "1.0.0-alpha.1"
+version = "1.0a1"
 description = "A Django application to store and query image annotations in a variety of formats."
 readme = "README.md"
 requires-python = ">=3.8"
