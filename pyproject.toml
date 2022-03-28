@@ -3,7 +3,7 @@ name = "django-image-annotations"
 version = "1.0a1"
 description = "A Django application to store and query image annotations in a variety of formats."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {file = "LICENSE"}
 keywords = [
   "django",
@@ -24,7 +24,7 @@ classifiers = [
   "License :: OSI Approved :: Apache Software License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python",
 ]
 dependencies = [
