@@ -1,3 +1,8 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+
 [project]
 name = "django-image-annotations"
 version = "1.0a1"
@@ -47,6 +52,9 @@ changelog = "github.com/ResonantGeoData/django-image-annotations/releases"
 
 [tool.django-stubs]
 django_settings_module = "imageannotationsd.settings"
+
+[tool.flit.module]
+name = "image_annotations"
 
 [tool.isort]
 profile = "black"
