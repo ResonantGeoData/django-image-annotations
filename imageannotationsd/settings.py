@@ -120,3 +120,17 @@ STATIC_URL = "static/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# A string specifying the location of the GEOS library.
+# Only set it if the environment variable is provided.
+# https://docs.djangoproject.com/en/4.0/ref/contrib/gis/geos/#std:setting-GEOS_LIBRARY_PATH
+if environ.get("IMAGEANNOTATIONSD_GEOS_LIBRARY_PATH"):
+    GEOS_LIBRARY_PATH = environ["IMAGEANNOTATIONSD_GEOS_LIBRARY_PATH"]
+
+
+# A string specifying the location of the GDAL library.
+# Only set it if the environment variable is provided.
+# https://docs.djangoproject.com/en/4.0/ref/contrib/gis/gdal/#std:setting-GDAL_LIBRARY_PATH
+if environ.get("IMAGEANNOTATIONSD_GDAL_LIBRARY_PATH"):
+    GDAL_LIBRARY_PATH = environ["IMAGEANNOTATIONSD_GDAL_LIBRARY_PATH"]
