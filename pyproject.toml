@@ -34,6 +34,7 @@ classifiers = [
 ]
 dependencies = [
   "django",
+  "psycopg2",
 ]
 
 [project.optional-dependencies]
