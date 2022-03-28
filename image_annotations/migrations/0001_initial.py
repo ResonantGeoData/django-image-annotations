@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 import django.contrib.gis.db.models.fields
 import django.contrib.postgres.fields
 import django.db.models.deletion
@@ -8,7 +10,7 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = []
+    dependencies: List[Tuple[str, str]] = []
 
     operations = [
         migrations.CreateModel(
