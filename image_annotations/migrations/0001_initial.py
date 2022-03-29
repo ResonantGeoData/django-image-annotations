@@ -168,7 +168,7 @@ class Migration(migrations.Migration):
                     ),
                     _connector="OR",
                 ),
-                name="vector_xor_raster_required",
+                name="measurement__vector_xor_raster_required",
             ),
         ),
         migrations.AddConstraint(
@@ -186,14 +186,14 @@ class Migration(migrations.Migration):
                     ),
                     _connector="OR",
                 ),
-                name="attribute_xor_properties_required",
+                name="measurement__attribute_xor_properties_required",
             ),
         ),
         migrations.AddConstraint(
             model_name="measurement",
             constraint=models.CheckConstraint(
                 check=models.Q(("tile__isnull", False), ("attribute__isnull", False)),
-                name="raster_attribute_required",
+                name="measurement__raster_attribute_required",
             ),
         ),
         migrations.AddConstraint(
@@ -202,7 +202,7 @@ class Migration(migrations.Migration):
                 check=models.Q(
                     ("geometry__isnull", False), ("properties__isnull", False)
                 ),
-                name="vector_properties_required",
+                name="measurement__vector_properties_required",
             ),
         ),
     ]
