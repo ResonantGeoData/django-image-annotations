@@ -174,6 +174,24 @@ class Migration(migrations.Migration):
         migrations.AddConstraint(
             model_name="measurement",
             constraint=models.CheckConstraint(
+                check=models.Q(
+                    ("attribute__isnull", True),
+                    models.Q(
+                        ("properties__isnull", True),
+                        models.Q(
+                            ("attribute__isnull", True),
+                            ("properties__isnull", True),
+                            _negated=True,
+                        ),
+                    ),
+                    _connector="OR",
+                ),
+                name="attribute_xor_properties_required",
+            ),
+        ),
+        migrations.AddConstraint(
+            model_name="measurement",
+            constraint=models.CheckConstraint(
                 check=models.Q(("tile__isnull", False), ("attribute__isnull", False)),
                 name="raster_attribute_required",
             ),
