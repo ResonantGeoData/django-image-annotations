@@ -130,6 +130,14 @@ class Measurement(models.Model):
                 name="vector_xor_raster_required",
             ),
             models.CheckConstraint(
+                check=(
+                    Q(attribute__isnull=True)
+                    | Q(properties__isnull=True)
+                    & ~(Q(attribute__isnull=True) & Q(properties__isnull=True))
+                ),
+                name="attribute_xor_properties_required",
+            ),
+            models.CheckConstraint(
                 check=Q(tile__isnull=False) & Q(attribute__isnull=False),
                 name="raster_attribute_required",
             ),
