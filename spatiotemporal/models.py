@@ -1,8 +1,8 @@
 """Django models.
 
-This module contains the projects Django models. The vocabulary
-closely follows the W3C working group note: "Spatial Data on
-the Web Best Practices".
+This module contains the application's Django models. The
+vocabulary closely follows the W3C working group note:
+"Spatial Data onthe Web Best Practices".
 
 https://www.w3.org/TR/sdw-bp
 """
