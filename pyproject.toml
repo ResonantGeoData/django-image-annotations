@@ -55,11 +55,11 @@ changelog = "github.com/ResonantGeoData/django-image-annotations/releases"
 django_settings_module = "imageannotationsd.settings"
 
 [tool.flit.module]
-name = "image_annotations"
+name = "."
 
 [tool.isort]
 profile = "black"
-known_first_party = ["image_annotations", "imageannotationsd"]
+known_first_party = ["spatiotemporal", "imageannotationsd"]
 
 [tool.mypy]
 plugins = ["mypy_django_plugin.main"]

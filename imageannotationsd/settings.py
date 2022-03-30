@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "django.contrib.postgres",
-    "image_annotations",
+    "spatiotemporal",
 ]
 
 MIDDLEWARE = [
