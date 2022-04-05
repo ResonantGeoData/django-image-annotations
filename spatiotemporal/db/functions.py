@@ -1,5 +1,12 @@
-from django.contrib.gis.db.models import LineStringField, PointField
+from django.contrib.gis.db.models import GeometryField, LineStringField, PointField
 from django.db.models import FloatField, Func
+
+
+class Box3D(Func):
+    """Compute the 3D bounding box of a geometry."""
+
+    function = "Box3D"
+    output_field = GeometryField()
 
 
 class XMax(Func):
