@@ -8,8 +8,18 @@ https://docs.djangoproject.com/en/4.0/topics/signals/
 from django.contrib.postgres.expressions import ArraySubquery
 from django.db.models import F
 
-from .db.functions import Box3D, MakeLine, MakePoint, XMax, XMin, YMax, YMin, ZMax, ZMin
-from .models import Coverage, Measurement
+from spatiotemporal.db.functions import (
+    Box3D,
+    MakeLine,
+    MakePoint,
+    XMax,
+    XMin,
+    YMax,
+    YMin,
+    ZMax,
+    ZMin,
+)
+from spatiotemporal.models import Coverage, Measurement
 
 
 def update_trajectory(sender, instance: Measurement, **kwargs):
