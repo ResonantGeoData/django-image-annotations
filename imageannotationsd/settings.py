@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.gis",
     "django.contrib.postgres",
+    "rest_framework",
     "spatiotemporal",
 ]
 
@@ -140,3 +141,12 @@ if environ.get("IMAGEANNOTATIONSD_GEOS_LIBRARY_PATH"):
 # https://docs.djangoproject.com/en/4.0/ref/contrib/gis/gdal/#std:setting-GDAL_LIBRARY_PATH
 if environ.get("IMAGEANNOTATIONSD_GDAL_LIBRARY_PATH"):
     GDAL_LIBRARY_PATH = environ["IMAGEANNOTATIONSD_GDAL_LIBRARY_PATH"]
+
+# Django REST Framework settings
+# https://www.django-rest-framework.org/api-guide/settings/
+REST_FRAMEWORK = {
+    # Only enable JSON renderer by default.
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+}
