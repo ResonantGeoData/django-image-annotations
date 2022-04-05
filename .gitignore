@@ -130,3 +130,6 @@ dmypy.json
 
 # VS Code workspace folder
 .vscode/
+
+# Django's generated static files
+staticfiles/
