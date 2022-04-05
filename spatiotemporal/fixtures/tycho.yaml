@@ -1,0 +1,58 @@
+- model: spatiotemporal.universe
+  pk: 1
+  fields:
+    epoch: 2001-04-12T17:41:28+00:00
+    srid: null
+    name: Jovian system cube 12-156A
+    description: >-
+      A cubic sector of space near Jupiter's moon Io with time beginning at
+      first observation of Tycho Magnetic Anomaly-2.
+    links:
+      - https://en.wikipedia.org/wiki/Io_(moon)
+    properties: {}
+
+- model: spatiotemporal.spatialthing
+  pk: 1
+  fields:
+    universe: 1
+    name: Tycho Magnetic Anomaly-2
+    description: >-
+      A larger variant of the first observed alien Monolith. Same proportions.
+      Found suddenly in the Jovian system.
+    links:
+      - https://en.wikipedia.org/wiki/Monolith_(Space_Odyssey)#Tycho_Magnetic_Anomaly-2
+    properties:
+      code: TMA-2
+      generation: 2
+      magnetic: false
+
+- model: spatiotemporal.coverage
+  pk: 1
+  fields:
+    name: Extent of TMA-2
+    description: >-
+      Tracks the volumetric extent of TMA-2.
+    links: []
+    metadata: {}
+
+- model: spatiotemporal.relationship
+  pk: 1
+  fields:
+    thing: 1
+    coverage: 1
+    properties:
+      confidence: 1
+
+- model: spatiotemporal.measurement
+  pk: 1
+  fields:
+    coverage: 1
+    timestamp: 0
+    geometry: MULTIPOLYGON(((0 0 0,0 4 0,1 4 0,1 0 0,0 0 0),(0 0 9,1 0 9,1 4 9,0 4 9,0 0 9),(0 0 0,0 0 9,0 4 9,0 4 0,0 0 0),(1 0 0,1 4 0,1 4 9,1 0 9,1 0 0),(0 0 0,1 0 0,1 0 9,0 0 9,0 0 0),(0 4 0,0 4 9,1 4 9,1 4 0,0 4 0)))
+
+- model: spatiotemporal.measurement
+  pk: 2
+  fields:
+    coverage: 1
+    timestamp: 2
+    geometry: MULTIPOLYGON(((10 1 1,10 5 1,11 5 1,11 1 1,10 1 1)),((10 1 10,11 1 10,11 5 10,10 5 10,10 1 10)),((10 1 1,10 1 10,10 5 10,10 5 1,10 1 1)),((11 1 1,11 5 1,11 5 10,11 1 10,11 1 1)),((10 1 1,11 1 1,11 1 10,10 1 10,10 1 1)),((10 5 1,10 5 10,11 5 10,11 5 1,10 5 1)))
