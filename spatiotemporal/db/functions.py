@@ -1,26 +1,5 @@
-from django.contrib.gis.db.models import GeometryField, LineStringField, PointField
-from django.db.models import CharField, FloatField, Func, IntegerField
-
-
-class NumBands(Func):
-    """Compute the number of bands in a PostGIS raster."""
-
-    function = "ST_NumBands"
-    output_field: "IntegerField[int, int]" = IntegerField()
-
-
-class PixelType(Func):
-    """Compute the pixel type of the first band of a raster."""
-
-    function = "ST_BandPixelType"
-    output_field: "CharField[str, str]" = CharField()
-
-
-class Box3D(Func):
-    """Compute the 3D bounding box of a geometry."""
-
-    function = "Box3D"
-    output_field = GeometryField()
+from django.contrib.gis.db.models import LineStringField, PointField
+from django.db.models import FloatField, Func
 
 
 class XMax(Func):
@@ -68,12 +47,12 @@ class ZMin(Func):
 class MakePoint(Func):
     """Compute the pixel type of the first band of a raster."""
 
-    function = "ST_MakeLine"
-    output_field = PointField()
+    function = "ST_MakePoint"
+    output_field = PointField(srid=0)
 
 
 class MakeLine(Func):
     """Compute the pixel type of the first band of a raster."""
 
     function = "ST_MakeLine"
-    output_field = LineStringField()
+    output_field = LineStringField(srid=0)
