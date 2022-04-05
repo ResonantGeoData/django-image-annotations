@@ -1,0 +1,8 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "imageannotationsd",
+    "version": "1.0a1"
+  },
+  "paths": { }
+}
