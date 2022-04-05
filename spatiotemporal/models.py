@@ -12,6 +12,7 @@ from django.contrib.gis.db.models import GeometryField
 from django.contrib.postgres.fields import ArrayField
 from django.contrib.postgres.indexes import GinIndex
 from django.db import models
+from django.db.models import UniqueConstraint
 
 from .db.fields import TrajectoryField
 
@@ -158,3 +159,8 @@ class Measurement(models.Model):
 
     class Meta:
         indexes = [GinIndex(fields=["properties"])]
+        constraints = [
+            UniqueConstraint(
+                fields=["coverage", "timestamp"], name="unique_coverage_timestamp"
+            )
+        ]
