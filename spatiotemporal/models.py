@@ -2,7 +2,7 @@
 
 This module contains the application's Django models. The
 vocabulary closely follows the W3C working group note:
-"Spatial Data onthe Web Best Practices".
+"Spatial Data on the Web Best Practices".
 
 https://www.w3.org/TR/sdw-bp
 """
@@ -14,7 +14,7 @@ from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.db.models import UniqueConstraint
 
-from .db.fields import TrajectoryField
+from spatiotemporal.db.fields import TrajectoryField
 
 
 class Universe(models.Model):
@@ -27,7 +27,7 @@ class Universe(models.Model):
     Examples:
         * earth
         * a photograph
-        * the book "Lord of the Rings"
+        * the setting of the book "Lord of the Rings"
 
     https://en.wikipedia.org/wiki/Domain_of_discourse
     """
@@ -141,15 +141,16 @@ class Measurement(models.Model):
     band (`tile` band `n`).
 
     A measurement without signals should be interpreted as an extent. A raster
-    extent measurment would be a 1-bit raster dataset where ON covers the footprint
-    of the extent.
+    extent measurment would be a 1-bit raster dataset where ON covers the
+    footprint of the extent.
 
-    The model differs between raster and vector data because the data structures
-    fundamentally differ between them. However, we would keep them in the same table
-    because the information they carry is identical (see above). This allows
-    us to place constraints on this table. For example, we may require that a coverage
-    must solely consist of either tile or geometry measurements. Similarly, the signal
-    would not be allowed to overlap within a coverage.
+    The model differs between raster and vector data because the data
+    structures fundamentally differ between them. However, we would keep them
+    in the same table because the information they carry is identical (see
+    above). This allows us to place constraints on this table. For example, we
+    may require that a coverage must solely consist of either tile or geometry
+    measurements. Similarly, the signal would not be allowed to overlap within
+    a coverage.
     """
 
     coverage = models.ForeignKey("Coverage", on_delete=models.CASCADE)
@@ -161,6 +162,7 @@ class Measurement(models.Model):
         indexes = [GinIndex(fields=["properties"])]
         constraints = [
             UniqueConstraint(
-                fields=["coverage", "timestamp"], name="unique_coverage_timestamp"
+                fields=["coverage", "timestamp"],
+                name="unique_coverage_timestamp",
             )
         ]
