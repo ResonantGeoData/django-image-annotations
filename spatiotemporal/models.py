@@ -8,17 +8,12 @@ https://www.w3.org/TR/sdw-bp
 """
 
 
-from django.contrib.gis.db.models import GeometryField, LineStringField, RasterField
-from django.contrib.postgres.constraints import ExclusionConstraint
-from django.contrib.postgres.fields import ArrayField, RangeOperators
-from django.contrib.postgres.indexes import GinIndex, GistIndex
+from django.contrib.gis.db.models import GeometryField
+from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
-from django.db.models import Case, Q, Value, When
-from django.db.models.functions import Cast, Coalesce
-from django.db.models.lookups import Exact, GreaterThan
 
-from .db.fields import BitField, TrajectoryField
-from .db.functions import NumBands, PixelType
+from .db.fields import TrajectoryField
 
 
 class Universe(models.Model):
@@ -136,114 +131,30 @@ class Measurement(models.Model):
     A coverage can consist of various "signals". For a vector geometry, the
     signal is the key in `properties`. The sample of that signal is a region
     in space (`geometry`) and time (`timestamp`) that relates the signal
-    (`properties` key) to a value (`properties` value). For a raster geometry,
-    the signal is the `n`th element of the `attributes` array. The sample of
-    that signal is a region in space (`tile` projection) and time (`timestamp`)
-    that relates the signal (`attributes` index `n`) to a value (`tile` value)
-    in a band (`tile` band `n`).
+    (`properties` key) to a value (`properties` value).
+
+    Later, a raster geometry may be added. For a raster geometry, a potential
+    signal is the `n`th element of the `attributes` array. The sample of that
+    signal is a region in space (`tile` projection) and time (`timestamp`) that
+    relates the signal (`attributes` index `n`) to a value (`tile` value) in a
+    band (`tile` band `n`).
 
     A measurement without signals should be interpreted as an extent. A raster
-    extent measurment must be a 1-bit raster dataset where ON covers the footprint
+    extent measurment would be a 1-bit raster dataset where ON covers the footprint
     of the extent.
 
     The model differs between raster and vector data because the data structures
-    fundamentally differ between them. However, we keep them in the same table
+    fundamentally differ between them. However, we would keep them in the same table
     because the information they carry is identical (see above). This allows
-    us to place constraints on this table. For example, we require that a coverage
-    must solely consist of either tile or geometry measurements. Similarly, the
-    signal is not allowed to overlap within a coverage.
+    us to place constraints on this table. For example, we may require that a coverage
+    must solely consist of either tile or geometry measurements. Similarly, the signal
+    would not be allowed to overlap within a coverage.
     """
 
     coverage = models.ForeignKey("Coverage", on_delete=models.CASCADE)
     timestamp = models.IntegerField(db_index=True)
-    # vector
-    geometry = GeometryField(null=True, dim=3, srid=0)
+    geometry = GeometryField(dim=3, srid=0)
     properties = models.JSONField(null=True)
-    # raster
-    tile = RasterField(null=True)
-    z = models.FloatField(null=True, db_index=True)
-    attributes = ArrayField(models.CharField(max_length=200), null=True)
 
     class Meta:
-        indexes = [GinIndex(fields=["properties"]), GinIndex(fields=["attributes"])]
-        constraints = [
-            # require one of geometry or tile
-            models.CheckConstraint(
-                check=Q(geometry__isnull=False) | Q(tile__isnull=False),
-                name="spatiotemporal_measurement_geom_or_tile",
-            ),
-            # only one of geometry or tile allowed
-            models.CheckConstraint(
-                check=~(Q(geometry__isnull=False) & Q(tile__isnull=False)),
-                name="spatiotemporal_measurement_geom_nand_tile",
-            ),
-            # disallow properties for tile
-            models.CheckConstraint(
-                check=Q(tile__isnull=True) | Q(properties__isnull=True),
-                name="spatiotemporal_measurement_tile_not_prop",
-            ),
-            # disallow attributes for geometry
-            models.CheckConstraint(
-                check=Q(geometry__isnull=True) | Q(attributes__isnull=True),
-                name="spatiotemporal_measurement_geom_not_attr",
-            ),
-            # require z for tile
-            models.CheckConstraint(
-                check=Q(tile__isnull=True) | Q(z__isnull=False),
-                name="spatiotemporal_measurement_tile_and_attr",
-            ),
-            # disallow z for geometry
-            models.CheckConstraint(
-                check=Q(geometry__isnull=True) | Q(z__isnull=True),
-                name="spatiotemporal_measurement_geom_not_z",
-            ),
-            # require the length of attributes to be equal to the number of bands in the tile
-            models.CheckConstraint(
-                check=Q(attributes__isnull=True) | Q(attributes__len=NumBands("tile")),
-                name="spatiotemporal_measurement_attrlen_eq_numbands",
-            ),
-            # require at least one band to be set if tile is set
-            models.CheckConstraint(
-                check=Q(tile__isnull=True)
-                | GreaterThan(
-                    Coalesce(NumBands("tile"), Value(0)),
-                    Value(0),
-                ),
-                name="spatiotemporal_measurement_one_band_required",
-            ),
-            # require extent raster measure to be a 1-bit boolean raster
-            models.CheckConstraint(
-                check=Q(tile__isnull=True)
-                | Q(attributes__isnull=False)
-                | Exact(PixelType("tile"), Value("1BB")),
-                name="spatiotemporal_measurement_1bb_extent",
-            ),
-            # require extent raster measure to be 1 band
-            models.CheckConstraint(
-                check=Q(tile__isnull=True)
-                | Q(attributes__isnull=False)
-                | Exact(NumBands("tile"), Value(1)),
-                name="spatiotemporal_measurement_1band_extent",
-            ),
-            # require a coverage to consist solely of either geometries or tiles
-            ExclusionConstraint(
-                expressions=(
-                    (
-                        Case(
-                            When(
-                                tile__isnull=True,
-                                then=Cast(0, output_field=BitField()),
-                            ),
-                            When(
-                                geometry__isnull=True,
-                                then=Cast(1, output_field=BitField()),
-                            ),
-                            default=None,
-                        ),
-                        RangeOperators.NOT_EQUAL,
-                    ),
-                    ("coverage", RangeOperators.EQUAL),
-                ),
-                name="spatiotemporal_measurement_coverage_has_geom_xor_tiles",
-            ),
-        ]
+        indexes = [GinIndex(fields=["properties"])]
