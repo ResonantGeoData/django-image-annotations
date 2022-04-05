@@ -1,3 +1,12 @@
+"""Django database functions.
+
+This module supplements Django's own coverage of Postgres
+and PostGIS functions.
+
+https://docs.djangoproject.com/en/4.0/ref/models/expressions/#func-expressions-1
+"""
+
+
 from django.contrib.gis.db.models import GeometryField, LineStringField, PointField
 from django.db.models import FloatField, Func
 

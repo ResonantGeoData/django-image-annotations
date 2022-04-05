@@ -1,3 +1,11 @@
+"""Django database fields.
+
+This module supplements Django's own coverage of Postgres
+and PostGIS types.
+
+https://docs.djangoproject.com/en/4.0/howto/custom-model-fields/
+"""
+
 from django.contrib.gis.db.models import GeometryField
 
 
