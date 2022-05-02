@@ -13,9 +13,11 @@ from spatiotemporal.models import (
     Measurement,
     Relationship,
     SpatialThing,
+    TimeUnit,
     Universe,
 )
 
+admin.site.register(TimeUnit)
 admin.site.register(Universe)
 admin.site.register(SpatialThing)
 admin.site.register(Relationship)

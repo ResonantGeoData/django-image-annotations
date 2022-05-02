@@ -17,6 +17,14 @@ from django.db.models import UniqueConstraint
 from spatiotemporal.db.fields import TrajectoryField
 
 
+class TimeUnit(models.Model):
+    """Time unit lookup table."""
+
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True)
+    links = ArrayField(models.URLField(), default=list)
+
+
 class Universe(models.Model):
     """A view of the world that includes everything of interest.
 
@@ -32,7 +40,7 @@ class Universe(models.Model):
     https://en.wikipedia.org/wiki/Domain_of_discourse
     """
 
-    timeunit = models.CharField(max_length=200)
+    timeunit = models.ForeignKey("TimeUnit", on_delete=models.PROTECT)
     epoch = models.DateTimeField(null=True)
     srid = models.ForeignKey(
         "gis.PostGISSpatialRefSys",

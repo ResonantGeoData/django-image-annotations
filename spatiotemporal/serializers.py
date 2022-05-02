@@ -13,8 +13,15 @@ from spatiotemporal.models import (
     Measurement,
     Relationship,
     SpatialThing,
+    TimeUnit,
     Universe,
 )
+
+
+class TimeUnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimeUnit
+        fields = "__all__"
 
 
 class UniverseSerializer(serializers.ModelSerializer):

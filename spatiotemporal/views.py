@@ -13,6 +13,7 @@ from spatiotemporal.models import (
     Measurement,
     Relationship,
     SpatialThing,
+    TimeUnit,
     Universe,
 )
 from spatiotemporal.serializers import (
@@ -20,8 +21,14 @@ from spatiotemporal.serializers import (
     MeasurementSerializer,
     RelationshipSerializer,
     SpatialThingSerializer,
+    TimeUnitSerializer,
     UniverseSerializer,
 )
+
+
+class TimeUnitViewSet(viewsets.ModelViewSet):
+    queryset = TimeUnit.objects.all()
+    serializer_class = TimeUnitSerializer
 
 
 class UniverseViewSet(viewsets.ModelViewSet):

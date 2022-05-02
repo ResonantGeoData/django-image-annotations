@@ -1,6 +1,17 @@
+- model: spatiotemporal.timeunit
+  pk: 1
+  fields:
+    name: seconds
+    description: >-
+      The base unit of time in the International System of Units.
+    links:
+      - https://en.wikipedia.org/wiki/Second
+
+
 - model: spatiotemporal.universe
   pk: 1
   fields:
+    timeunit: 1
     epoch: 2001-04-12T17:41:28+00:00
     srid: null
     name: Jovian system cube 12-156A
