@@ -35,27 +35,52 @@
     properties:
       code: TMA-2
       generation: 2
-      magnetic: false
+
+- model: spatiotemporal.extent
+  pk: 1
+  fields:
+    thing: 1
+    timestamp: 0
+    geometry: MULTIPOLYGON(((0 0 0,0 4 0,1 4 0,1 0 0,0 0 0),(0 0 9,1 0 9,1 4 9,0 4 9,0 0 9),(0 0 0,0 0 9,0 4 9,0 4 0,0 0 0),(1 0 0,1 4 0,1 4 9,1 0 9,1 0 0),(0 0 0,1 0 0,1 0 9,0 0 9,0 0 0),(0 4 0,0 4 9,1 4 9,1 4 0,0 4 0)))
+    metadata: {}
+
+- model: spatiotemporal.extent
+  pk: 2
+  fields:
+    thing: 1
+    timestamp: 2
+    geometry: MULTIPOLYGON(((10 1 1,10 5 1,11 5 1,11 1 1,10 1 1)),((10 1 10,11 1 10,11 5 10,10 5 10,10 1 10)),((10 1 1,10 1 10,10 5 10,10 5 1,10 1 1)),((11 1 1,11 5 1,11 5 10,11 1 10,11 1 1)),((10 1 1,11 1 1,11 1 10,10 1 10,10 1 1)),((10 5 1,10 5 10,11 5 10,11 5 1,10 5 1)))
+    metadata: {}
 
 - model: spatiotemporal.coverage
   pk: 1
   fields:
-    name: Extent of TMA-2
+    universe: 1
+    name: Magnetic flux
     description: >-
-      Tracks the volumetric extent of TMA-2.
-    links: []
-    metadata: {}
+      The magnetic flux of the monolith as measured by the Overhauser magnetometer
+      onboard the Discovery spacecraft.
+    links:
+      - https://en.wikipedia.org/wiki/Magnetometer#Overhauser_effect_magnetometer
+    metadata:
+      unit: weber
+      instrument: JOM-4S Overhauser Magnetometer
+      sensitivity: 0.1
 
 - model: spatiotemporal.measurement
   pk: 1
   fields:
     coverage: 1
     timestamp: 0
-    geometry: MULTIPOLYGON(((0 0 0,0 4 0,1 4 0,1 0 0,0 0 0),(0 0 9,1 0 9,1 4 9,0 4 9,0 0 9),(0 0 0,0 0 9,0 4 9,0 4 0,0 0 0),(1 0 0,1 4 0,1 4 9,1 0 9,1 0 0),(0 0 0,1 0 0,1 0 9,0 0 9,0 0 0),(0 4 0,0 4 9,1 4 9,1 4 0,0 4 0)))
+    geometry: POINT(0 0 0)
+    properties:
+      flux: 0.0412
 
 - model: spatiotemporal.measurement
   pk: 2
   fields:
     coverage: 1
     timestamp: 2
-    geometry: MULTIPOLYGON(((10 1 1,10 5 1,11 5 1,11 1 1,10 1 1)),((10 1 10,11 1 10,11 5 10,10 5 10,10 1 10)),((10 1 1,10 1 10,10 5 10,10 5 1,10 1 1)),((11 1 1,11 5 1,11 5 10,11 1 10,11 1 1)),((10 1 1,11 1 1,11 1 10,10 1 10,10 1 1)),((10 5 1,10 5 10,11 5 10,11 5 1,10 5 1)))
+    geometry: POINT(10 1 1)
+    properties:
+      flux: -0.0552

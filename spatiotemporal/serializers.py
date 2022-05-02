@@ -10,6 +10,7 @@ from rest_framework import serializers
 
 from spatiotemporal.models import (
     Coverage,
+    Extent,
     Measurement,
     SpatialThing,
     TimeUnit,
@@ -32,6 +33,12 @@ class UniverseSerializer(serializers.ModelSerializer):
 class SpatialThingSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpatialThing
+        fields = "__all__"
+
+
+class ExtentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Extent
         fields = "__all__"
 
 

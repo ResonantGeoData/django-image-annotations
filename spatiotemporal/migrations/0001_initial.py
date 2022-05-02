@@ -28,13 +28,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                (
-                    "trajectory",
-                    spatiotemporal.db.fields.TrajectoryField(
-                        dim=4, editable=False, null=True, spatial_index=False, srid=0
-                    ),
-                ),
-                ("name", models.CharField(db_index=True, max_length=200)),
+                ("name", models.CharField(blank=True, db_index=True, max_length=255)),
                 ("description", models.TextField(blank=True)),
                 (
                     "links",
@@ -80,7 +74,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("epoch", models.DateTimeField(null=True)),
-                ("name", models.CharField(db_index=True, max_length=200)),
+                ("name", models.CharField(blank=True, db_index=True, max_length=255)),
                 ("description", models.TextField(blank=True)),
                 (
                     "links",
@@ -118,7 +112,13 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(db_index=True, max_length=200)),
+                (
+                    "trajectory",
+                    spatiotemporal.db.fields.TrajectoryField(
+                        dim=4, editable=False, null=True, spatial_index=False, srid=0
+                    ),
+                ),
+                ("name", models.CharField(blank=True, db_index=True, max_length=255)),
                 ("description", models.TextField(blank=True)),
                 (
                     "links",
@@ -153,7 +153,7 @@ class Migration(migrations.Migration):
                     "geometry",
                     django.contrib.gis.db.models.fields.GeometryField(dim=3, srid=0),
                 ),
-                ("properties", models.JSONField(null=True)),
+                ("properties", models.JSONField()),
                 (
                     "coverage",
                     models.ForeignKey(
@@ -163,24 +163,53 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
-        migrations.AddIndex(
-            model_name="coverage",
-            index=django.contrib.postgres.indexes.GinIndex(
-                fields=["metadata"], name="spatiotempo_metadat_dd6e2f_gin"
-            ),
+        migrations.CreateModel(
+            name="Extent",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("timestamp", models.IntegerField()),
+                (
+                    "geometry",
+                    django.contrib.gis.db.models.fields.GeometryField(dim=3, srid=0),
+                ),
+                ("metadata", models.JSONField(default=dict)),
+                (
+                    "thing",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="spatiotemporal.spatialthing",
+                    ),
+                ),
+            ],
         ),
-        migrations.AddIndex(
+        migrations.AddField(
             model_name="coverage",
-            index=django.contrib.postgres.indexes.GinIndex(
-                fields=["trajectory"],
-                name="spatiotemporal_trajectory_idx",
-                opclasses=["GIST_GEOMETRY_OPS_ND"],
+            name="universe",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="spatiotemporal.universe",
             ),
         ),
         migrations.AddIndex(
             model_name="universe",
             index=django.contrib.postgres.indexes.GinIndex(
                 fields=["properties"], name="spatiotempo_propert_85cae9_gin"
+            ),
+        ),
+        migrations.AddIndex(
+            model_name="spatialthing",
+            index=django.contrib.postgres.indexes.GinIndex(
+                fields=["trajectory"],
+                name="spatiotemporal_trajectory_idx",
+                opclasses=["GIST_GEOMETRY_OPS_ND"],
             ),
         ),
         migrations.AddIndex(
@@ -199,6 +228,24 @@ class Migration(migrations.Migration):
             model_name="measurement",
             constraint=models.UniqueConstraint(
                 fields=("coverage", "timestamp"), name="unique_coverage_timestamp"
+            ),
+        ),
+        migrations.AddIndex(
+            model_name="extent",
+            index=django.contrib.postgres.indexes.GinIndex(
+                fields=["metadata"], name="spatiotempo_metadat_822f27_gin"
+            ),
+        ),
+        migrations.AddConstraint(
+            model_name="extent",
+            constraint=models.UniqueConstraint(
+                fields=("thing", "timestamp"), name="unique_extent"
+            ),
+        ),
+        migrations.AddIndex(
+            model_name="coverage",
+            index=django.contrib.postgres.indexes.GinIndex(
+                fields=["metadata"], name="spatiotempo_metadat_dd6e2f_gin"
             ),
         ),
     ]

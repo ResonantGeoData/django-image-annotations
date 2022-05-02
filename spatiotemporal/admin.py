@@ -10,6 +10,7 @@ from django.contrib import admin
 
 from spatiotemporal.models import (
     Coverage,
+    Extent,
     Measurement,
     SpatialThing,
     TimeUnit,
@@ -19,5 +20,6 @@ from spatiotemporal.models import (
 admin.site.register(TimeUnit)
 admin.site.register(Universe)
 admin.site.register(SpatialThing)
+admin.site.register(Extent)
 admin.site.register(Coverage)
 admin.site.register(Measurement)

@@ -47,7 +47,7 @@ class Universe(models.Model):
         on_delete=models.PROTECT,
         null=True,
     )
-    name = models.CharField(max_length=200, db_index=True)
+    name = models.CharField(max_length=255, blank=True, db_index=True)
     description = models.TextField(blank=True)
     links = ArrayField(models.URLField(), default=list)
     properties = models.JSONField(default=dict)
@@ -65,17 +65,58 @@ class SpatialThing(models.Model):
 
     Examples are: people, places, or bowling balls.
 
+    The `trajectory` is a materialized representation of the
+    spatiotemporal extent of the spatial thing.
+
     https://www.w3.org/TR/sdw-bp/#dfn-spatial-thing
     """
 
+    trajectory = TrajectoryField(
+        editable=False,
+        dim=4,
+        srid=0,
+        spatial_index=False,
+        null=True,
+    )
     universe = models.ForeignKey("Universe", on_delete=models.CASCADE)
-    name = models.CharField(max_length=200, db_index=True)
+    name = models.CharField(blank=True, db_index=True, max_length=255)
     description = models.TextField(blank=True)
     links = ArrayField(models.URLField(), default=list)
     properties = models.JSONField(default=dict)
 
     class Meta:
-        indexes = [GinIndex(fields=["properties"])]
+        indexes = [
+            GinIndex(
+                fields=["trajectory"],
+                name="spatiotemporal_trajectory_idx",
+                opclasses=["GIST_GEOMETRY_OPS_ND"],
+            ),
+            GinIndex(fields=["properties"]),
+        ]
+
+
+class Extent(models.Model):
+    """A spatial extent.
+
+    Describes the spatial extent of a spatial thing. This is really
+    just a dimensionless coverage, but it is useful to represent
+    it as a seperate model. Otherwise, the special meaning of `NULL`
+    for `properties` in `Coverage`/`Measurement` would be confusing.
+    """
+
+    thing = models.ForeignKey("SpatialThing", on_delete=models.CASCADE)
+    timestamp = models.IntegerField()
+    geometry = GeometryField(dim=3, srid=0)
+    metadata = models.JSONField(default=dict)
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                name="unique_extent",
+                fields=["thing", "timestamp"],
+            )
+        ]
+        indexes = [GinIndex(fields=["metadata"])]
 
 
 class Coverage(models.Model):
@@ -86,33 +127,17 @@ class Coverage(models.Model):
     to flow values. A weather forecast maps points in space and time to
     values of temperature, wind speed, humidity and so forth.
 
-    The `trajectory` is a materialized representation of the trajectory taken
-    by the domain of the coverage.
-
     https://www.w3.org/TR/sdw-bp/#coverages
     """
 
-    trajectory = TrajectoryField(
-        editable=False,
-        dim=4,
-        srid=0,
-        spatial_index=False,
-        null=True,
-    )
-    name = models.CharField(max_length=200, db_index=True)
+    universe = models.ForeignKey("Universe", on_delete=models.CASCADE)
+    name = models.CharField(blank=True, db_index=True, max_length=255)
     description = models.TextField(blank=True)
     links = ArrayField(models.URLField(), default=list)
     metadata = models.JSONField(default=dict)
 
     class Meta:
-        indexes = [
-            GinIndex(fields=["metadata"]),
-            GinIndex(
-                fields=["trajectory"],
-                name="spatiotemporal_trajectory_idx",
-                opclasses=["GIST_GEOMETRY_OPS_ND"],
-            ),
-        ]
+        indexes = [GinIndex(fields=["metadata"])]
 
 
 class Measurement(models.Model):
@@ -129,10 +154,6 @@ class Measurement(models.Model):
     relates the signal (`attributes` index `n`) to a value (`tile` value) in a
     band (`tile` band `n`).
 
-    A measurement without signals should be interpreted as an extent. A raster
-    extent measurment would be a 1-bit raster dataset where ON covers the
-    footprint of the extent.
-
     The model differs between raster and vector data because the data
     structures fundamentally differ between them. However, we would keep them
     in the same table because the information they carry is identical (see
@@ -145,7 +166,7 @@ class Measurement(models.Model):
     coverage = models.ForeignKey("Coverage", on_delete=models.CASCADE)
     timestamp = models.IntegerField(db_index=True)
     geometry = GeometryField(dim=3, srid=0)
-    properties = models.JSONField(null=True)
+    properties = models.JSONField()
 
     class Meta:
         indexes = [GinIndex(fields=["properties"])]
