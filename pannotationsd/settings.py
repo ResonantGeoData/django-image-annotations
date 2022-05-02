@@ -1,5 +1,5 @@
 """
-Django settings for imageannotationsd.
+Django settings for pannotationsd.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/4.0/topics/settings/
@@ -15,13 +15,13 @@ from urllib.parse import urlparse
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = environ.get(
-    "IMAGEANNOTATIONSD_SECRET_KEY",
+    "PANNOTATIONSD_SECRET_KEY",
     "django-insecure-q2wkcjm6r4v1eswjy$a9zkbv9n0-3)@#p_8lg&!h8*zl_2pyuz",
 )
-DEBUG = environ.get("IMAGEANNOTATIONSD_DEBUG", "1") in {"1", "yes", "true", "True"}
+DEBUG = environ.get("PANNOTATIONSD_DEBUG", "1") in {"1", "yes", "true", "True"}
 ALLOWED_HOSTS = [
     host_string.strip()
-    for host_string in environ.get("IMAGEANNOTATIONSD_ALLOWED_HOSTS", "").split(",")
+    for host_string in environ.get("PANNOTATIONSD_ALLOWED_HOSTS", "").split(",")
 ]
 
 
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "imageannotationsd.urls"
+ROOT_URLCONF = "pannotationsd.urls"
 
 TEMPLATES = [
     {
@@ -68,15 +68,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "imageannotationsd.wsgi.application"
+WSGI_APPLICATION = "pannotationsd.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASE_URI = urlparse(
     environ.get(
-        "IMAGEANNOTATIONSD_DB_URI",
-        "postgresql://127.0.0.1:5432/imageannotationsd",
+        "PANNOTATIONSD_DB_URI",
+        "postgresql://127.0.0.1:5432/pannotationsd",
     )
 )
 
@@ -132,15 +132,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # A string specifying the location of the GEOS library.
 # Only set it if the environment variable is provided.
 # https://docs.djangoproject.com/en/4.0/ref/contrib/gis/geos/#std:setting-GEOS_LIBRARY_PATH
-if environ.get("IMAGEANNOTATIONSD_GEOS_LIBRARY_PATH"):
-    GEOS_LIBRARY_PATH = environ["IMAGEANNOTATIONSD_GEOS_LIBRARY_PATH"]
+if environ.get("PANNOTATIONSD_GEOS_LIBRARY_PATH"):
+    GEOS_LIBRARY_PATH = environ["PANNOTATIONSD_GEOS_LIBRARY_PATH"]
 
 
 # A string specifying the location of the GDAL library.
 # Only set it if the environment variable is provided.
 # https://docs.djangoproject.com/en/4.0/ref/contrib/gis/gdal/#std:setting-GDAL_LIBRARY_PATH
-if environ.get("IMAGEANNOTATIONSD_GDAL_LIBRARY_PATH"):
-    GDAL_LIBRARY_PATH = environ["IMAGEANNOTATIONSD_GDAL_LIBRARY_PATH"]
+if environ.get("PANNOTATIONSD_GDAL_LIBRARY_PATH"):
+    GDAL_LIBRARY_PATH = environ["PANNOTATIONSD_GDAL_LIBRARY_PATH"]
 
 # Django REST Framework settings
 # https://www.django-rest-framework.org/api-guide/settings/

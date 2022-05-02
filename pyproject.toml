@@ -1,12 +1,12 @@
 [tool.django-stubs]
-django_settings_module = "imageannotationsd.settings"
+django_settings_module = "pannotationsd.settings"
 
 [tool.flit.module]
 name = "."
 
 [tool.isort]
 profile = "black"
-known_first_party = ["spatiotemporal", "imageannotationsd"]
+known_first_party = ["spatiotemporal", "pannotationsd"]
 
 [tool.mypy]
 plugins = [
