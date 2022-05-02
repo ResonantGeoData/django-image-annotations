@@ -6,7 +6,11 @@ name = "."
 
 [tool.isort]
 profile = "black"
-known_first_party = ["spatiotemporal", "pannotationsd"]
+known_first_party = [
+  "spatiotemporal",
+  "pannotations",
+  "pannotationsd",
+]
 
 [tool.mypy]
 plugins = [
