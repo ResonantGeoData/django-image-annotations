@@ -137,35 +137,6 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name="Relationship",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("properties", models.JSONField(default=dict)),
-                (
-                    "coverage",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="spatiotemporal.coverage",
-                    ),
-                ),
-                (
-                    "thing",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="spatiotemporal.spatialthing",
-                    ),
-                ),
-            ],
-        ),
-        migrations.CreateModel(
             name="Measurement",
             fields=[
                 (
@@ -216,12 +187,6 @@ class Migration(migrations.Migration):
             model_name="spatialthing",
             index=django.contrib.postgres.indexes.GinIndex(
                 fields=["properties"], name="spatiotempo_propert_87ea45_gin"
-            ),
-        ),
-        migrations.AddIndex(
-            model_name="relationship",
-            index=django.contrib.postgres.indexes.GinIndex(
-                fields=["properties"], name="spatiotempo_propert_c8e5c1_gin"
             ),
         ),
         migrations.AddIndex(

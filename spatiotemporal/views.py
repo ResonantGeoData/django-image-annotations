@@ -11,7 +11,6 @@ from rest_framework import viewsets
 from spatiotemporal.models import (
     Coverage,
     Measurement,
-    Relationship,
     SpatialThing,
     TimeUnit,
     Universe,
@@ -19,7 +18,6 @@ from spatiotemporal.models import (
 from spatiotemporal.serializers import (
     CoverageSerializer,
     MeasurementSerializer,
-    RelationshipSerializer,
     SpatialThingSerializer,
     TimeUnitSerializer,
     UniverseSerializer,
@@ -39,11 +37,6 @@ class UniverseViewSet(viewsets.ModelViewSet):
 class SpatialThingViewSet(viewsets.ModelViewSet):
     queryset = SpatialThing.objects.all()
     serializer_class = SpatialThingSerializer
-
-
-class RelationshipViewSet(viewsets.ModelViewSet):
-    queryset = Relationship.objects.all()
-    serializer_class = RelationshipSerializer
 
 
 class CoverageViewSet(viewsets.ModelViewSet):

@@ -13,7 +13,6 @@ from rest_framework.routers import SimpleRouter
 from spatiotemporal.views import (
     CoverageViewSet,
     MeasurementViewSet,
-    RelationshipViewSet,
     SpatialThingViewSet,
     TimeUnitViewSet,
     UniverseViewSet,
@@ -23,7 +22,6 @@ router = SimpleRouter()
 router.register(r"timeunits", TimeUnitViewSet)
 router.register(r"universes", UniverseViewSet)
 router.register(r"spatialthings", SpatialThingViewSet)
-router.register(r"relationships", RelationshipViewSet)
 router.register(r"coverages", CoverageViewSet)
 router.register(r"measurements", MeasurementViewSet)
 

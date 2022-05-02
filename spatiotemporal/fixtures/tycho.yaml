@@ -46,14 +46,6 @@
     links: []
     metadata: {}
 
-- model: spatiotemporal.relationship
-  pk: 1
-  fields:
-    thing: 1
-    coverage: 1
-    properties:
-      confidence: 1
-
 - model: spatiotemporal.measurement
   pk: 1
   fields:

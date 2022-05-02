@@ -11,7 +11,6 @@ from rest_framework import serializers
 from spatiotemporal.models import (
     Coverage,
     Measurement,
-    Relationship,
     SpatialThing,
     TimeUnit,
     Universe,
@@ -33,12 +32,6 @@ class UniverseSerializer(serializers.ModelSerializer):
 class SpatialThingSerializer(serializers.ModelSerializer):
     class Meta:
         model = SpatialThing
-        fields = "__all__"
-
-
-class RelationshipSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Relationship
         fields = "__all__"
 
 

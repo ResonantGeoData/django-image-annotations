@@ -78,25 +78,6 @@ class SpatialThing(models.Model):
         indexes = [GinIndex(fields=["properties"])]
 
 
-class Relationship(models.Model):
-    """The relationships between a coverage and the thing it describes.
-
-    Coverages may be spatially related to each other. This table allows
-    spatial things to be spatially related to each other via their coverages.
-
-    Example: an annotation (coverage) can describe the extent of a
-    hot dog (spatial thing) within a photograph (universe) with a
-    confidence (relationship property) of 98%.
-    """
-
-    thing = models.ForeignKey("SpatialThing", on_delete=models.CASCADE)
-    coverage = models.ForeignKey("Coverage", on_delete=models.CASCADE)
-    properties = models.JSONField(default=dict)
-
-    class Meta:
-        indexes = [GinIndex(fields=["properties"])]
-
-
 class Coverage(models.Model):
     """A function that maps points in space and time to property values.
 
