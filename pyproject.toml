@@ -1,58 +1,3 @@
-[build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
-
-
-[project]
-name = "django-image-annotations"
-version = "1.0a1"
-description = "A Django application to store and query image annotations in a variety of formats."
-readme = "README.md"
-requires-python = ">=3.10"
-license = {file = "LICENSE"}
-keywords = [
-  "django",
-  "image annotation",
-  "image classification",
-  "machine learning",
-  "artificial intelligence",
-]
-authors = [
-  {name = "Kitware, Inc.", email = "rgd@kitware.com"}
-]
-classifiers = [
-  "Development Status :: 3 - Alpha",
-  "Environment :: Web Environment",
-  "Framework :: Django :: 4.0",
-  "Framework :: Django",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: Apache Software License",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python",
-]
-dependencies = [
-  "django",
-  "djangorestframework",
-  "psycopg2",
-]
-
-[project.optional-dependencies]
-test = [
-  "pyyaml",
-  "black==22.1.0",
-  "django-stubs==1.9.0",
-  "isort==5.10.1",
-  "mypy==0.941",
-  "pyflakes==2.4.0",
-]
-
-[project.urls]
-repository = "github.com/ResonantGeoData/django-image-annotations"
-changelog = "github.com/ResonantGeoData/django-image-annotations/releases"
-
-
 [tool.django-stubs]
 django_settings_module = "imageannotationsd.settings"
 
@@ -64,4 +9,8 @@ profile = "black"
 known_first_party = ["spatiotemporal", "imageannotationsd"]
 
 [tool.mypy]
-plugins = ["mypy_django_plugin.main"]
+plugins = [
+  "mypy_django_plugin.main",
+  "mypy_drf_plugin.main",
+  "pydantic.mypy",
+]
