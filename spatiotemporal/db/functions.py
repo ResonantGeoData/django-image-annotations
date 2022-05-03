@@ -22,42 +22,42 @@ class XMax(Func):
     """Returns the X maxima of a 2D or 3D bounding box or a geometry."""
 
     function = "ST_XMax"
-    output_field = FloatField()
+    output_field: "FloatField[float, float]" = FloatField()
 
 
 class XMin(Func):
     """Returns the X minima of a 2D or 3D bounding box or a geometry."""
 
     function = "ST_XMin"
-    output_field = FloatField()
+    output_field: "FloatField[float, float]" = FloatField()
 
 
 class YMax(Func):
     """Returns the Y maxima of a 2D or 3D bounding box or a geometry."""
 
     function = "ST_YMax"
-    output_field = FloatField()
+    output_field: "FloatField[float, float]" = FloatField()
 
 
 class YMin(Func):
     """Returns the Y minima of a 2D or 3D bounding box or a geometry."""
 
     function = "ST_YMin"
-    output_field = FloatField()
+    output_field: "FloatField[float, float]" = FloatField()
 
 
 class ZMax(Func):
     """Returns the Z maxima of a 2D or 3D bounding box or a geometry."""
 
     function = "ST_ZMax"
-    output_field = FloatField()
+    output_field: "FloatField[float, float]" = FloatField()
 
 
 class ZMin(Func):
     """Returns the Z minima of a 2D or 3D bounding box or a geometry."""
 
     function = "ST_ZMin"
-    output_field = FloatField()
+    output_field: "FloatField[float, float]" = FloatField()
 
 
 class MakePoint(Func):
