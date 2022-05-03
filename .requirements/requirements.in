@@ -1,6 +1,4 @@
 django
 djangorestframework
-jsonschema-rs
-orjson
 psycopg2
 pydantic

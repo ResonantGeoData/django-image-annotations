@@ -1,6 +1,5 @@
 -c ../requirements.txt
 black
-datamodel-code-generator
 django-stubs
 djangorestframework-stubs
 isort
